@@ -1,0 +1,16 @@
+from django.contrib import admin
+
+from .models import Note
+
+class NoteModel(admin.ModelAdmin):
+    list_display = ["title", "user", "timestamp"]
+    list_display_links = ["user"]
+    list_editable = ["title"]
+    list_filter = ["timestamp"]
+    search_fields = ["title", "content"]
+
+    class Meta:
+        model = Note
+
+
+admin.site.register(Note, NoteModel)
