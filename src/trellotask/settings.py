@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'notes',
 ]
 
 MIDDLEWARE = [
@@ -50,11 +51,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'trellotask.urls'
+FIXTURE_DIRS = (
+   os.path.join(BASE_DIR, 'initial_data.json'),
+)
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
