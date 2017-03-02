@@ -11,7 +11,7 @@ class ListView(View):
         context = {
             'object_list': instance,
         }
-        return render(request, 'list_view.html', context=context)
+        return render(request, 'base.html', context=context)
 
     def post(self, request, *args, **kwargs):
         pass
