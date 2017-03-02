@@ -10,9 +10,11 @@ class NoteTestCase(TestCase):
         Note.objects.create(title='Test title', content='Test content')
 
     def test_note_title_content(self):
-        """Test note creation."""
+        '''
+        Test note creation, test of UpperCharField.
+        '''
         obj = Note.objects.get(title='Test title')
-        self.assertEqual(obj.title, 'Test title')
+        self.assertEqual(obj.title, 'Test title'.upper())
         self.assertTrue(obj.content == 'Test content')
 
     def test_string_representation(self):
@@ -20,12 +22,16 @@ class NoteTestCase(TestCase):
         self.assertEqual(str(note), note.title)
 
     def test_list_view(self):
-        """Test status code for list_view."""
+        '''
+        Test status code for list_view.
+        '''
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
 
     def test_notes_count(self):
-        """Checks count of the notes."""
+        '''
+        Checks count of the notes.
+        '''
         response = self.client.get('/')
         self.assertTrue('object_list' in response.context)
         object_list = Note.objects.count()
@@ -35,7 +41,9 @@ class NoteTestCase(TestCase):
 
 class NoteFormTestCase(TestCase):
     def test_valid_form(self):
-        '''Testing form validation.'''
+        '''
+        Testing form validation.
+        '''
         title = 'A new title'
         content  = 'Some test content'
         obj = Note.objects.create(title=title, content=content)
@@ -46,7 +54,9 @@ class NoteFormTestCase(TestCase):
         self.assertNotEqual(form.cleaned_data.get("content"), "Another item")
 
     def test_invalid_form(self):
-        '''Testing form invalidation.'''
+        '''
+        Testing form invalidation.
+        '''
         title = 'Another new title'
         content  = 'Content' # Less than 10 symbols
         obj = Note.objects.create(title=title, content=content)
@@ -56,7 +66,9 @@ class NoteFormTestCase(TestCase):
         self.assertTrue(form.errors)
 
     def test_adding_new_note(self):
-        """Test note will be added succesfully to database."""
+        '''
+        Test note will be added succesfully to database.
+        '''
         count = Note.objects.count()
         title = 'A very new title'
         content  = 'Some new test content'

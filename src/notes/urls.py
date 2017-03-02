@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 
-from .views import ListView
+from .views import NoteListView
 
 urlpatterns = [
-    url(r'^$', ListView.as_view(), name='list'),
+    url(r'^$', NoteListView.as_view(), name='list'),
 ]
