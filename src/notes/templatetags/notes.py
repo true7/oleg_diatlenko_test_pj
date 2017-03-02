@@ -9,3 +9,13 @@ def get_note(pk):
     result = note.content
     return {'result': result}
 
+
+'''
+Have to be in dase.html, but do not work properly:
+
+<div class='col-sm-6 col-sm-offset-3'>
+{% for obj in object_list %}
+<p>{% get_note obj.pk %}</p>
+{% endfor %}
+</div>
+'''

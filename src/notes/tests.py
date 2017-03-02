@@ -1,5 +1,8 @@
 from django.test import TestCase
+from django.core.urlresolvers import reverse
+
 from .models import Note
+from .forms import NoteForm
 
 
 class NoteTestCase(TestCase):
@@ -11,6 +14,10 @@ class NoteTestCase(TestCase):
         obj = Note.objects.get(title='Test title')
         self.assertEqual(obj.title, 'Test title')
         self.assertTrue(obj.content == 'Test content')
+
+    def test_string_representation(self):
+        note = Note.objects.get(title='Test title')
+        self.assertEqual(str(note), note.title)
 
     def test_list_view(self):
         """Test status code for list_view."""
@@ -24,4 +31,39 @@ class NoteTestCase(TestCase):
         object_list = Note.objects.count()
         object_list_from_context = len(response.context['object_list'])
         self.assertEqual(object_list, object_list_from_context)
+
+
+class NoteFormTestCase(TestCase):
+    def test_valid_form(self):
+        '''Testing form validation.'''
+        title = 'A new title'
+        content  = 'Some test content'
+        obj = Note.objects.create(title=title, content=content)
+        data = {'title': obj.title, "content": obj.content}
+        form = NoteForm(data=data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data.get('title'), obj.title)
+        self.assertNotEqual(form.cleaned_data.get("content"), "Another item")
+
+    def test_invalid_form(self):
+        '''Testing form invalidation.'''
+        title = 'Another new title'
+        content  = 'Content' # Less than 10 symbols
+        obj = Note.objects.create(title=title, content=content)
+        data = {'title': obj.title, "content": obj.content}
+        form = NoteForm(data=data)
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.errors)
+
+    def test_adding_new_note(self):
+        """Test note will be added succesfully to database."""
+        count = Note.objects.count()
+        title = 'A very new title'
+        content  = 'Some new test content'
+        obj = Note.objects.create(title=title, content=content)
+        data = {'title': obj.title, "content": obj.content}
+        form = NoteForm(data=data)
+        new_count = Note.objects.count()
+        self.assertEqual(count+1, new_count)
+
 
