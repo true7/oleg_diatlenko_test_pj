@@ -9,12 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Notes</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
-          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel='stylesheet' href='{% static "css/bootstrap.min.css" %}' />
+    <link rel='stylesheet' href='{% static "css/bootstrap-theme.min.css" %}' />
 
     <style>
     </style>
@@ -31,7 +27,7 @@
 <div class="thumbnail">
 <div class="caption post-detail-item">
 
-<form  action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+<form  action="" method="POST" enctype='multipart/form-data' id='note_form'>{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn btn-default" value="Submit" />
 </form>
@@ -53,6 +49,8 @@
                 {% endif %}
 
                 <div class="caption post-detail-item">
+                <div id='ajax_err'></div>
+                <div id='ajax_ok'></div>
                     <h3>{{ obj.title }} <small>{{ obj.timestamp }}</small></h3>
                     <p>Author: {{ obj.user }}</p>
                     <p>Browse content: {{ obj.content|truncatechars:10 }}</p>
@@ -65,6 +63,29 @@
 </div>
 
 </div>
+
+<script src='{% static "js/jquery-3.1.1.min.js" %}'></script>
+<script src='{% static "js/bootstrap.min.js" %}'></script>
+
+<!-- <script type="text/javascript">
+$('#note_form').on('submit', function(e){
+    e.preventDefault();
+    var form = $('#note_form');
+    $.ajax({
+        type: form.attr('method'),
+        url: {% url 'notes:list' %},
+        data: form.serialize(),
+        dataType: 'json',
+        success: function (data) {
+            $("#ajax_ok").html(data);
+            alert('HEEEEYYYYYY')
+        },
+        error: function(data) {
+            $("#ajax_err").html("Something went wrong!");
+        }
+    })
+})
+</script> -->
 
 </body>
 </html>
