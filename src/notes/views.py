@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.views import View
-from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 
 from .models import Note
@@ -22,8 +23,9 @@ class NoteListView(ListView):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            return HttpResponseRedirect(reverse('notes:list'))
         return render(
-            request,
-            self.template_name,
-            {self.context_object_name: self.get_queryset(), 'form': form}
-            )
+                request,
+                self.template_name,
+                {self.context_object_name: self.get_queryset(), 'form': form}
+                )

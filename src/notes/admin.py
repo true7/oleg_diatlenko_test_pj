@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Note
+from .models import Note, Book
 
 class NoteModel(admin.ModelAdmin):
     list_display = ["title", "user", "timestamp", 'image']
@@ -14,3 +14,4 @@ class NoteModel(admin.ModelAdmin):
 
 
 admin.site.register(Note, NoteModel)
+admin.site.register(Book)

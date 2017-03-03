@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from .models import Note
+from .models import Note, Book
 from .forms import NoteForm
 
 
@@ -82,3 +82,22 @@ class NoteFormTestCase(TestCase):
         self.assertEqual(count+1, new_count)
 
 
+class BookCascadeDeleteTestCase(TestCase):
+    def setUp(self):
+        Note.objects.create(title='One title', content='Test content')
+        Note.objects.create(title='Two title', content='Test content')
+
+    def test_book_cascade_delete(self):
+        '''
+        Check if book instance will dissapear if related notes deleted.
+        '''
+        obj1 = Note.objects.get(title='One title')
+        obj2 = Note.objects.get(title='Two title')
+        book1 = Book(headline='Book1')
+        book2 = Book(headline='Book2')
+        book1.save()
+        book2.save()
+        book1.notes.add(obj1)
+        book2.notes.add(obj1, obj2)
+        self.assertEqual(1, book1.notes.count())
+        self.assertEqual(2, book2.notes.count())
