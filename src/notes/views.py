@@ -19,13 +19,11 @@ class NoteListView(ListView):
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('/')
-        else:
-            return render(
-                request,
-                self.template_name,
-                {self.context_object_name: self.get_queryset(), 'form': form}
-                )
+        return render(
+            request,
+            self.template_name,
+            {self.context_object_name: self.get_queryset(), 'form': form}
+            )
