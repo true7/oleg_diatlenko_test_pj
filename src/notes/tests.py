@@ -7,15 +7,18 @@ from .forms import NoteForm
 
 class NoteTestCase(TestCase):
     def setUp(self):
-        Note.objects.create(title='Test title', content='Test content')
+        Note.objects.create(title='Test title', content='Test content', image='cat.png')
 
     def test_note_title_content(self):
         '''
-        Test note creation, test of UpperCharField.
+        Test note creation, test of UpperCharField, test ImageField.
         '''
         obj = Note.objects.get(title='Test title')
         self.assertEqual(obj.title, 'Test title'.upper())
         self.assertTrue(obj.content == 'Test content')
+        self.assertEqual(obj.image.name, 'cat.png')
+        self.assertFalse(obj.image.name == 'dog.png')
+        self.assertTrue(obj.image.url == '/media/cat.png') # will remove later
 
     def test_string_representation(self):
         note = Note.objects.get(title='Test title')
