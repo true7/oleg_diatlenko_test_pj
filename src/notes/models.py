@@ -12,7 +12,6 @@ class UpperCharField(models.CharField):
 class Note(models.Model):
     title = UpperCharField(max_length=50)
     content = models.CharField(max_length=200, validators=[MinLengthValidator(10)])
-    image = models.ImageField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 

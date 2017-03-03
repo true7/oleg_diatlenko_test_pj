@@ -19,4 +19,4 @@ class NoteForm(ModelForm):
 
     class Meta:
         model = Note
-        fields = ['title', 'content','image']
+        fields = ['title', 'content']
